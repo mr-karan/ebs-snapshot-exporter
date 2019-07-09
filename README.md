@@ -118,8 +118,7 @@ ec2_snapshots_volume_size{job="public",progress="100%",region="ap-south-1",snaps
     - **exported_tags**: List of EC2 Tags which are available as labels in the metrics exported. If you have any custom EC2 Tags that you want to scrape with other labels, you can add it here.
     - **filters**:
       - **name**: Name of the AWS Filter key.
-      - **value**: Value of the Filter key
-    Read more about [Filter API documentation](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Filter.html).
+      - **value**: Value of the Filter key. Read more about [Filter API documentation](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Filter.html).
     - **aws_creds**:
       - **region**: AWS Region where your snapshots are hosted.
       - **access_key**: AWS Access Key if you are using an IAM User. It overrides the env variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
