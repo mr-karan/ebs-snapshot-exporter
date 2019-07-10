@@ -58,7 +58,7 @@ There are multiple ways of installing `ebs-snapshot-exporter`.
 
 [mrkaran/ebs-snapshot-exporter](https://hub.docker.com/r/mrkaran/ebs-snapshot-exporter)
 
-`docker run mrkaran/ebs-snapshot-exporter:v0.1.0 -p 9608:9608 -v /etc/ebs-snapshot-exporter/config.toml:/etc/ebs-snapshot-exporter/config.toml`
+`docker run -p 9608:9608 -v /etc/ebs-snapshot-exporter/config.toml:/etc/ebs-snapshot-exporter/config.toml mrkaran/ebs-snapshot-exporter:latest`
 
 ### Precompiled binaries
 
