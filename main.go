@@ -62,8 +62,11 @@ func main() {
 	r := prometheus.NewRegistry()
 	// Fetch all jobs listed in config.
 	for _, job := range hub.config.App.Jobs {
+		// This is to avoid all copies of `exporter` getting updated by the last `job` memory address
+		// you instantiate with, since we pass `job` as a pointer to the struct.
+		j := job
 		// Initialize the exporter. Exporter is a collection of metrics to be exported.
-		exporter, err := hub.NewExporter(&job)
+		exporter, err := hub.NewExporter(&j)
 		if err != nil {
 			hub.logger.Errorf("exporter initialization failed for %s", job.Name)
 		}
