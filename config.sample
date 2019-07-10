@@ -5,7 +5,7 @@ log_level = "debug" # Logging Level. `production` will log only `INFO` and highe
 name="myjob" # Unique Job Name
 exported_tags=[] # List of EC2 Tags which are collected from API response and added to the metric labels.
 [[app.jobs.filters]] # Refer to Filter API documentation: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Filter.html.
-name = "environment"
+name = "tag:environment"
 value = "prod"
 [app.jobs.aws_creds]
 region="ap-south-1" # Required.
@@ -16,6 +16,9 @@ role_arn="" # Optional. Role ARN is to "assume" another role than the one specif
 [[app.jobs]]
 name="another-job" # Unique Job Name
 exported_tags=["service"] # List of EC2 Tags which are collected from API response and added to the metric labels.
+[[app.jobs.filters]] # Refer to Filter API documentation: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Filter.html.
+name = "Name"
+value = "myunicornstartup"
 [app.jobs.aws_creds]
 region="ap-east-1" # Required.
 access_key="" # Optional. If blank, the environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are used.
