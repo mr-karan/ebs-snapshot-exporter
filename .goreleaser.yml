@@ -1,31 +1,24 @@
-# This is an example goreleaser.yaml file with some sane defaults.
-# Make sure to check the documentation at http://goreleaser.com
-before:
-  hooks:
-    # you may remove this if you don't use vgo
-    - go mod download
-    # you may remove this if you don't need go generate
-    - go generate ./...
+env:
+  - GO111MODULE=on
+  - RELEASE_BUILDS=dist/ebs-snapshot-exporter_darwin_amd64/ebs-snapshot-exporter dist/ebs-snapshot-exporter_linux_amd64/ebs-snapshot-exporter dist/ebs-snapshot-exporter_windows_amd64//ebs-snapshot-exporter.exe
+
 builds:
-- env:
-  - CGO_ENABLED=0
+  - binary: ebs-snapshot-exporter
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+    ldflags:
+      - -s -w -X "main.buildVersion={{ .Tag }} ({{ .ShortCommit }} {{ .Date }})"
+
 archives:
-- replacements:
-    darwin: Darwin
-    linux: Linux
-    windows: Windows
-    386: i386
-    amd64: x86_64
-checksum:
-  name_template: 'checksums.txt'
-snapshot:
-  name_template: "{{ .Tag }}-next"
-changelog:
-  sort: asc
-  filters:
-    exclude:
-    - '^docs:'
-    - '^test:'
+  - format: tar.gz
+    files:
+      - config.sample
+      - README.md
+      - LICENSE
 dockers:
   # You can have multiple Docker images.
   -
