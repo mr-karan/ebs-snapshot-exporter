@@ -25,13 +25,13 @@ func (hub *Hub) NewExporter(job *Job) (*Exporter, error) {
 		job:    job,
 		hub:    hub,
 		up: prometheus.NewDesc(
-			prometheus.BuildFQName(namespace, "", "up"),
+			prometheus.BuildFQName(namespace, job.Name, "up"),
 			"Could the AWS EC2 API be reached.",
 			nil,
 			nil,
 		),
 		version: prometheus.NewDesc(
-			prometheus.BuildFQName(namespace, "", "version"),
+			prometheus.BuildFQName(namespace, job.Name, "version"),
 			"Version of ebs-snapshot-exporter",
 			[]string{"build"},
 			nil,
