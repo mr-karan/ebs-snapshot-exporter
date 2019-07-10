@@ -87,18 +87,18 @@ cp config.toml.sample config.toml # change the settings like server address, job
 You can send a `GET` request to `/metrics` and see the following metrics in Prometheus format:
 
 ```bash
-# HELP ec2_snapshots_start_time Start Timestamp of EBS Snapshot
-# TYPE ec2_snapshots_start_time gauge
-ec2_snapshots_start_time{job="public",progress="100%",region="ap-south-1",snapshot_id="redacted",state="completed",vol_id="redacted",service="redacted"} 1.562355284e+09
-# HELP ec2_snapshots_up Could the AWS EC2 API be reached.
-# TYPE ec2_snapshots_up gauge
-ec2_snapshots_up 1
-# HELP ec2_snapshots_version Version of ebs-snapshot-exporter
-# TYPE ec2_snapshots_version gauge
-ec2_snapshots_version{build="5161e83 (2019-07-09 15:35:59 +0530)"} 1
-# HELP ec2_snapshots_volume_size Size of volume assosicated with the EBS snapshot
-# TYPE ec2_snapshots_volume_size gauge
-ec2_snapshots_volume_size{job="public",progress="100%",region="ap-south-1",snapshot_id="redacted",state="completed",vol_id="redacted",service="redacted"} 50
+# HELP ebs_snapshots_start_time Start Timestamp of EBS Snapshot
+# TYPE ebs_snapshots_start_time gauge
+ebs_snapshots_start_time{job="public",progress="100%",region="ap-south-1",snapshot_id="redacted",state="completed",vol_id="redacted",service="redacted"} 1.562355284e+09
+# HELP ebs_snapshots_up Could the AWS EC2 API be reached.
+# TYPE ebs_snapshots_up gauge
+ebs_snapshots_up 1
+# HELP ebs_snapshots_version Version of ebs-snapshot-exporter
+# TYPE ebs_snapshots_version gauge
+ebs_snapshots_version{build="5161e83 (2019-07-09 15:35:59 +0530)"} 1
+# HELP ebs_snapshots_volume_size Size of volume assosicated with the EBS snapshot
+# TYPE ebs_snapshots_volume_size gauge
+ebs_snapshots_volume_size{job="public",progress="100%",region="ap-south-1",snapshot_id="redacted",state="completed",vol_id="redacted",service="redacted"} 50
 ```
 
 ## Advanced Section
@@ -126,6 +126,31 @@ ec2_snapshots_volume_size{job="public",progress="100%",region="ap-south-1",snaps
       - **role_arn**: Role ARN if you want to `assume` another role from your IAM Role. This is particularly helpful to scrape data across multiple AWS Accounts.
 
 **NOTE**: You can use `--config` flag to supply a custom config file path while running `ebs-snapshot-exporter`.
+
+### Setting up Prometheus
+
+You can add the following config under `scrape_configs` in Prometheus' configuration.
+
+```yaml
+  - job_name: 'ebs-snapshots'
+    metrics_path: '/metrics'
+    static_configs:
+    - targets: ['localhost:9608']
+      labels:
+        service: ebs-snapshots
+```
+
+Validate your setup by querying `ebs_snapshots_up` to check if ebs-snapshot-exporter is discovered by Prometheus:
+
+```plain
+`ebs_snapshots_up{instance="localhost:9608",job="ebs-snapshots",service="ebs-snapshots"} 1`
+```
+
+### Example Queries
+
+- Count of EBS Snapshots: `count(ebs_snapshots_start_time{mytag="somethingcool"})`
+- Time since the last snapshot taken: `time() - ebs_snapshots_start_time`
+- Volume size of EBS for which snapshot is taken: `ebs_snapshots_volume_size{mytag="somethingcool"}`
 
 ## Contribution
 

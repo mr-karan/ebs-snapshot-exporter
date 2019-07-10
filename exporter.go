@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	namespace = "ec2_snapshots"
+	namespace = "ebs_snapshots"
 )
 
 // NewExporter returns an initialized `Exporter`.
