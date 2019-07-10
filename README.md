@@ -152,9 +152,15 @@ Validate your setup by querying `ebs_snapshots_up` to check if ebs-snapshot-expo
 - Time since the last snapshot taken: `time() - ebs_snapshots_start_time`
 - Volume size of EBS for which snapshot is taken: `ebs_snapshots_volume_size{mytag="somethingcool"}`
 
+### Example Alerts
+
+- Alert when no snapshot is taken in last 48 hours:
+`count(time() - ebs_snapshots_start_time{environment="prod"}<48*60*60) by (service) == 0`
+
 ## Contribution
 
 PRs on Feature Requests, Bug fixes are welcome. Feel free to open an issue and have a discussion first. Read [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+Contributions on more alert scenarios, more metrics are also welcome and encouraged.
 
 ## License
 
