@@ -151,13 +151,28 @@ Validate your setup by querying `ebs_snapshots_up` to check if ebs-snapshot-expo
 ### Example Queries
 
 - Count of EBS Snapshots: `count(ebs_snapshots_start_time{mytag="somethingcool"})`
-- Time since the last snapshot taken: `time() - ebs_snapshots_start_time`
+- Last EBS Snapshot age in hours: `(min(time()-ebs_snapshots_start_time{exported_job="myjob"}) by (service) / 3600)`
+- Last unsuccesful snapshot age in hours: `(min(time()-ebs_snapshots_start_time{state!="completed"}) by (service) / 3600)`
 - Volume size of EBS for which snapshot is taken: `ebs_snapshots_volume_size{mytag="somethingcool"}`
 
 ### Example Alerts
 
-- Alert when no snapshot is taken in last 48 hours:
-`count(time() - ebs_snapshots_start_time{environment="prod"}<48*60*60) by (service) == 0`
+<details><summary>Alert when no snapshot is taken in last 3 hours</summary><br><pre>
+```
+      - alert: EBSSnapshotFailed
+        expr: ebs:last_failed_snapshot_age_in_hours >= 3
+        for: 1m
+        labels:
+          room: production-alerts
+          severity: warning
+        annotations:
+          description: EBS Snapshots seems to be not working for service {{ $labels.service }}.
+          title: EBS Snapshot failed.
+          summary: Please check the AWS DLM lifecycle policy and rules.
+```
+
+</pre></details>
+
 
 ## Contribution
 
