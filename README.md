@@ -158,19 +158,16 @@ Validate your setup by querying `ebs_snapshots_up` to check if ebs-snapshot-expo
 ### Example Alerts
 
 <details><summary>Alert when no snapshot is taken in last 3 hours</summary><br><pre>
-```
-      - alert: EBSSnapshotFailed
-        expr: ebs:last_failed_snapshot_age_in_hours >= 3
-        for: 1m
-        labels:
-          room: production-alerts
-          severity: warning
-        annotations:
-          description: EBS Snapshots seems to be not working for service {{ $labels.service }}.
-          title: EBS Snapshot failed.
-          summary: Please check the AWS DLM lifecycle policy and rules.
-```
-
+- alert: EBSSnapshotFailed
+  expr: ebs:last_failed_snapshot_age_in_hours >= 3
+  for: 1m
+  labels:
+    room: production-alerts
+    severity: warning
+  annotations:
+    description: EBS Snapshots seems to be not working for service {{ $labels.service }}.
+    title: EBS Snapshot failed.
+    summary: Please check the AWS DLM lifecycle policy and rules.
 </pre></details>
 
 
