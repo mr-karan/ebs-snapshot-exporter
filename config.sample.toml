@@ -1,0 +1,11 @@
+[app]
+address = "0.0.0.0:9608" # Address of the HTTP Server.
+server_timeout = "5s" # Server timeout for HTTP requests.
+log = "debug" # Use `debug` to enable verbose logging. Can be set to `info` otherwise.
+metrics_collect_interval = "60s"
+
+[aws]
+region="ap-south-1"
+[[aws.filters]]
+name="status"
+value="in-use"

@@ -1,20 +1,36 @@
-module github.com/mr-karan/ec2-snapshot-prometheus-exporter
+module github.com/mr-karan/ebs-exporter
 
-go 1.12
+go 1.18
 
 require (
-	github.com/aws/aws-sdk-go v1.20.14
-	github.com/golang/protobuf v1.3.2 // indirect
-	github.com/knadh/koanf v0.4.3
-	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
-	github.com/kr/pretty v0.1.0 // indirect
-	github.com/prometheus/client_golang v1.0.0
-	github.com/prometheus/common v0.6.0 // indirect
-	github.com/prometheus/procfs v0.0.3 // indirect
-	github.com/sirupsen/logrus v1.4.2
-	github.com/spf13/pflag v1.0.3
-	golang.org/x/net v0.0.0-20190628185345-da137c7871d7 // indirect
-	golang.org/x/sys v0.0.0-20190710143415-6ec70d6a5542 // indirect
-	golang.org/x/text v0.3.2 // indirect
-	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
+	github.com/VictoriaMetrics/metrics v1.18.1
+	github.com/aws/aws-sdk-go-v2 v1.16.1
+	github.com/aws/aws-sdk-go-v2/config v1.8.3
+	github.com/aws/aws-sdk-go-v2/service/cloudwatch v1.17.2
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.32.2
+	github.com/go-chi/chi v1.5.4
+	github.com/knadh/koanf v1.4.0
+	github.com/sirupsen/logrus v1.8.1
+	github.com/spf13/pflag v1.0.5
+)
+
+require (
+	github.com/aws/aws-sdk-go-v2/credentials v1.4.3 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.6.0 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.8 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.2 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/ini v1.2.4 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.2 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.4.2 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.7.2 // indirect
+	github.com/aws/smithy-go v1.11.2 // indirect
+	github.com/fsnotify/fsnotify v1.4.9 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/mitchellh/copystructure v1.2.0 // indirect
+	github.com/mitchellh/mapstructure v1.4.1 // indirect
+	github.com/mitchellh/reflectwalk v1.0.2 // indirect
+	github.com/pelletier/go-toml v1.7.0 // indirect
+	github.com/valyala/fastrand v1.1.0 // indirect
+	github.com/valyala/histogram v1.2.0 // indirect
+	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
 )

@@ -1,24 +1,25 @@
-.PHONY : build run fresh test clean
+APP-BIN := ./bin/ebs-exporter.bin
 
-BIN := ebs-snapshot-exporter
+LAST_COMMIT := $(shell git rev-parse --short HEAD)
+LAST_COMMIT_DATE := $(shell git show -s --format=%ci ${LAST_COMMIT})
+VERSION := $(shell git describe --tags)
+BUILDSTR := ${VERSION} (Commit: ${LAST_COMMIT_DATE} (${LAST_COMMIT}), Build: $(shell date +"%Y-%m-%d% %H:%M:%S %z"))
 
-HASH := $(shell git rev-parse --short HEAD)
-COMMIT_DATE := $(shell git show -s --format=%ci ${HASH})
-BUILD_DATE := $(shell date '+%Y-%m-%d %H:%M:%S')
-VERSION := ${HASH} (${COMMIT_DATE})
+.PHONY: build
+build: ## Build binary.
+	go build -o ${APP-BIN} -ldflags="-X 'main.buildString=${BUILDSTR}'" ./cmd/
 
+.PHONY: run
+run: ## Run binary.
+	./${APP-BIN}
 
-build:
-	go build -o ${BIN} -ldflags="-X 'main.buildVersion=${VERSION}' -X 'main.buildDate=${BUILD_DATE}'"
+.PHONY: clean
+clean: ## Remove temporary files and the `bin` folder.
+	rm -rf bin
 
-run:
-	./zed
+.PHONY: fresh
+fresh: build run
 
-fresh: clean build run
-
-test:
-	go test
-
-clean:
-	go clean
-	- rm -f ${BIN}
+.PHONY: lint
+lint:
+	docker run --rm -v $(pwd):/app -w /app golangci/golangci-lint:v1.43.0 golangci-lint run -v
